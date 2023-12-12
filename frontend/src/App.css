@@ -16,3 +16,12 @@
 body {
   background-color: antiquewhite;
 }
+
+label {
+  display: block;
+  padding: 4px;
+}
+
+fieldset {
+  margin-top: 4px;
+}

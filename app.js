@@ -11,7 +11,6 @@ app.use(express.json())
 app.get('/transformImage/:imageFile/width/:width/height/:height', async (req, res) => {
   const { imageFile, width, height } = req.params;
 
-
   let img = await axios.get(imageFile, {
     responseType: 'arraybuffer'
   })
@@ -20,7 +19,6 @@ app.get('/transformImage/:imageFile/width/:width/height/:height', async (req, re
     .then(data => {
         res.send(data)
       }) 
-  // res.end()
 })
 
 app.listen(port, () => {
