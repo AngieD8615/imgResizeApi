@@ -4,14 +4,16 @@ import './App.css';
 function App() {
   const imageUri = 'https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=612x612&w=0&k=20&c=A63koPKaCyIwQWOTFBRWXj_PwCrR4cEoOw2S9Q7yVl8='
   const encodedWebUri = encodeURIComponent(imageUri) 
-  const [width, setWidth] = useState(100)
-  const [height, setHeight] = useState(100)
+  const [formWidth, setFormWidth] = useState(100)
+  const [formHeight, setFormHeight] = useState(100)
 
-  const handleClick = (e) => {
+  const [resizeWidth, setResizeWidth] = useState(100)
+  const [resizeHeight, setResizeHeight] = useState(100)
+
+  const handleSubmit = (e) => {
     e.preventDefault()
-    // setDimensions({width: , height: })
-    console.log(e.target.name)
-    console.log(e.target.value)
+    setResizeWidth(formWidth)
+    setResizeHeight(formHeight)
   }
 
   return (
@@ -21,21 +23,21 @@ function App() {
       </header>
       <body>      
         <section>
-          <form>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <fieldset>
-              <label for="width">Width: <input id="width" type="number" required min="25" max="400" value={width} onChange={(e) => {setWidth(e.target.value)}}/>
+              <label for="width">Width: <input id="width" type="number" required min="25" max="400" value={formWidth} onChange={(e) => {setFormWidth(e.target.value)}}/>
               </label>
-              <label for="height">Height: <input id="height" type="number" required min="25" max="400" value={height} onChange={(e) => {setHeight(e.target.value)}}/>
+              <label for="height">Height: <input id="height" type="number" required min="25" max="400" value={formHeight} onChange={(e) => {setFormHeight(e.target.value)}}/>
               </label>
-              <input type="submit" value="Resize" onClick={(e) => handleClick(e)}/>
+              <input type="submit" value="Resize" />
             </fieldset>
           </form>
         </section>
         <section>
-          <p>Full Image Web</p>
+          <h2>Full Image Web</h2>
           <img src={imageUri} alt="Original from web" />
-          <p>Resized Image from Server</p>
-          <img src={`http://localhost:3001/transformImage/${encodedWebUri}/width/${width}/height/${height}`} alt="Resized from server"/>
+          <h2>Resized Image from Server</h2>
+          <img src={`http://localhost:3001/transformImage/${encodedWebUri}/width/${resizeWidth}/height/${resizeHeight}`} alt="Resized from server"/>
         </section>
       </body>
     </div>
