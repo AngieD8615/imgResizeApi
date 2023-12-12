@@ -1,4 +1,5 @@
 const express = require('express')
+const axios = require('axios');
 var cors = require('cors')
 const sharp = require('sharp');
 const app = express()
@@ -9,14 +10,17 @@ app.use(express.json())
 
 app.get('/transformImage/:imageFile/width/:width/height/:height', async (req, res) => {
   const { imageFile, width, height } = req.params;
-  // const imageUri = 'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg'
-  
 
-  sharp(imageFile).resize(parseInt(width), parseInt(height)).withMetadata().toBuffer()
+
+  let img = await axios.get(imageFile, {
+    responseType: 'arraybuffer'
+  })
+  
+  sharp(img.data).resize(parseInt(width), parseInt(height)).withMetadata().toBuffer()
     .then(data => {
-        res.type('jpg').send(data)
+        res.send(data)
       }) 
-  res.end()
+  // res.end()
 })
 
 app.listen(port, () => {
