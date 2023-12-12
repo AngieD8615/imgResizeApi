@@ -1,36 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
-import axios from 'axios';
 
 function App() {
 
-  const [isLoading, setIsLoading] = useState(true)
-  const [image, setImage] = useState('')
+const imageUri = 'https://cdn.freecodecamp.org/curriculum/cat-photo-app/relaxing-cat.jpg'
 
-  useEffect(() => {
-    axios.get('http://localhost:3001/transformedImage', {
-      responseType: "arraybuffer"
-    })
-    .then((res) => {
-      const base64 = btoa(
-        new Uint8Array(res.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          ''
-        )
-      )
-      setImage(base64)
-    })
-    .then(() => {
-      setIsLoading(false)});
-    }, [])
-
-  
+const encodedUri = encodeURIComponent(imageUri) 
 
   return (
     <div className="App">
       <header className="App-header">
+        <p>Full Image</p>
+        <img src={imageUri} alt="Original from web" />
         <p>Image from Server</p>
-        {isLoading ? `Loading` : <img src={`data:image/jpeg;charset=utf-8;base64,${image}`} alt="Angie and Baby from server"/>}
+        <img src={`http://localhost:3001/transformImage/${encodedUri}/width/250/height/250`} alt="Resized from server"/>
       </header>
     </div>
   );
